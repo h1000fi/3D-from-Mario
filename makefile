@@ -20,7 +20,7 @@ LFLAGS=$(LDFLAGS)
 GIT_VERSION := $(shell git describe --abbrev=6 --dirty --always --tags)
 GFLAGS=-cpp -D_VERSION=\"$(GIT_VERSION)\"
 
-VER = ~/bin/3d_channel_g2
+VER = ~/bin/3D_nanochannel
 
 #FF = /state/partition1/apps/openmpi-1.6.3/bin/mpif77
 #FF = /share/apps/openmpi-1.10.0_no_ib/bin/mpif90
