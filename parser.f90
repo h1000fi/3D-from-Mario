@@ -51,6 +51,7 @@ sigmar = 0.0 ! random sigma
 ! Check validity of input
 !
 
+potential = ndi
 scx = ndi
 scy = ndi
 scz = ndi
@@ -77,10 +78,11 @@ dy = ndr
 dz = ndr
 cdiva = ndr
 csalt = ndr
-vpol0 = ndr
+rpol = ndr
 vsol0 = ndr
 gama0 = ndr
 benergy = ndr
+lambda = ndr
 
 nsc = 1
 scs(1) = 1.0
@@ -259,9 +261,16 @@ do while (ios == 0)
    read(buffer, *, iostat=ios) benergy
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
+ case ('rpol')
+   read(buffer, *, iostat=ios) rpol
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
- case ('vpol')
-   read(buffer, *, iostat=ios) vpol0
+ case ('potential')
+   read(buffer, *, iostat=ios) potential
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('lambda')
+   read(buffer, *, iostat=ios) lambda
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
  case ('sigmar')
