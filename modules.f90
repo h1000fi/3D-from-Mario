@@ -16,6 +16,7 @@ endmodule
 
 module system 
 integer systemtype
+integer vscan
 real*8 delta
 real*8 dx,dy,dz
 real*8 cdiva

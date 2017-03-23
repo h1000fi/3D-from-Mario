@@ -51,6 +51,7 @@ sigmar = 0.0 ! random sigma
 ! Check validity of input
 !
 
+vscan = ndi
 potential = ndi
 scx = ndi
 scy = ndi
@@ -263,6 +264,10 @@ do while (ios == 0)
 
  case ('rpol')
    read(buffer, *, iostat=ios) rpol
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('vscan')
+   read(buffer, *, iostat=ios) vscan
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
  case ('potential')
