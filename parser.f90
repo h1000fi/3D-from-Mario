@@ -51,6 +51,9 @@ sigmar = 0.0 ! random sigma
 ! Check validity of input
 !
 
+hguess = ndi
+spiral = ndi
+nspiral = ndi
 vscan = ndi
 potential = ndi
 scx = ndi
@@ -299,6 +302,14 @@ do while (ios == 0)
    read(buffer, *, iostat=ios) hguess
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
+ case ('spiral')
+   read(buffer, *, iostat=ios) spiral
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('nspiral')
+   read(buffer, *, iostat=ios) nspiral
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
  case ('hring')
    read(buffer, *, iostat=ios) hring
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
@@ -366,6 +377,32 @@ do while (ios == 0)
      read(fh, *) echargec
      read(fh, *) basura
      read(fh, *) eepsc
+ 
+    case(42)
+     read(fh, *) basura
+     read(fh, *) rchannel
+     read(fh, *) basura
+     read(fh, *) RdimZ
+     read(fh, *) basura
+     read(fh, *) NBRUSH ! number of brushes in the tetha direction
+     read(fh, *) basura
+     read(fh, *) gspacer ! grafting point distance unit (nm)
+     read(fh, *) basura
+     read(fh, *) Nrings
+
+     allocate (ringpos(Nrings))
+
+     read(fh, *) basura
+     do i = 1, Nrings
+       read(fh, *) ringpos(i)
+     enddo
+      ringpos = ringpos - 0.5
+    
+     read(fh, *) basura
+     read(fh, *) echargec
+     read(fh, *) basura
+     read(fh, *) eepsc
+
 
 
     case(1) 

@@ -51,8 +51,11 @@ real*8 fv
 ! hamiltonian inception
 real*8 hfactor, hd
 real*8, allocatable :: hds(:)
-ALLOCATE(hds(100))
+real*8, allocatable :: hds2(:,:)
+ALLOCATE(hds(1000))
+ALLOCATE(hds2(100,10))
 hds = -1
+hds2 = -1
 
 !-----------------------------------------------------
 ! Common variables
@@ -224,6 +227,7 @@ do ix=1,dimx
  do iy=1,dimy
    do iz=1,dimz
 
+   if(spiral .eq. 0) then 
      if(hguess .eq. 0) then
 
       hd = sqrt(float((2*ix-dimx)**2+(2*iy-dimy)**2))/2.0*delta
@@ -245,7 +249,22 @@ do ix=1,dimx
       hd = minval(hds, mask = hds .gt.0)
       hfactor = dexp(-(kp**2)*hd)
 
-     end if
+     endif
+   endif
+
+   if(spiral .eq. 1) then
+
+      do i=1,100
+        do j=1,nspiral
+          hds2(i,j)=(float(2*ix-dimx)-2*cos(hguess*i*2*pi/100/nspiral+j*2*pi/nspiral)*hring/delta)**2
+          hds2(i,j)=hds2(i,j)+(float(2*iy-dimy)-2*sin(hguess*i*2*pi/100/nspiral+j*2*pi/nspiral)*hring/delta)**2
+          hds2(i,j)=hds2(i,j)/4.0*(delta**2)+(oval*float(iz-i*dimz/100)*delta)**2
+        end do
+      end do
+      hd = minval(hds2, mask = hds2 .gt.0)
+      hfactor = dexp(-(kp**2)*hd)
+
+   endif
 
      fv = (1.0 - volprot(ix,iy,iz))
      xpot(ix, iy, iz, im) = xh(ix,iy,iz)**vpol

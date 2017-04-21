@@ -1,7 +1,7 @@
 branched 0
 
 ! stdout to file
-stdout 10
+stdout 6
 
 sigmar 0.0
 
@@ -10,10 +10,10 @@ electroflag 0
 !verbose
 verbose 5
 
-!system size
-dimx 68
-dimy 68
-dimz 57
+!system size in units of delta
+dimx 36
+dimy 36
+dimz 40
 
 delta 0.5
 
@@ -25,46 +25,48 @@ gama 90.0
 cdiva 1.0
 
 !PBC PBC xmin xmax ymin ymax zmin zmax, 1=yes, 2=wall, 0=bulk
-PBC 0 0 0 0 0 0
+PBC 0 0 0 0 1 1
 
 !infile
 infile 0
+!what to scan: 1, hamiltonian inception parameter kp, 2, attraction strength st. If 1 then the system will use the first st value.
 vscan 1
 
-!hamiltonian inception
-hguess 6
+!hamiltonian inception 
+!hguess: rotational symmetry, hring: initial attractive zoneÂs distance to the wall (in xy plane), oval: 3D shape of the growing zone 1 means spherical  
+spiral 1
+nspiral 3
+hguess 1
 hring 6
-oval 0.8
-nkp 15
+oval 1
+nkp 12
 1
 0.7
 0.5
 0.3
 0.2
 0.15
-0.12
 0.1
-0.08
-0.06
+0.07
 0.05
 0.03
 0.02
-0.01
 0
 
 !hydroph
 nst 1
-1.25
+0.8
 
 !gauche
 benergy 0.0
 
+!potential type 1, new LJ(different than the previous LJ which was not self-consistent), 2, exponential decay, using a lambda to control the range.
 potential 1
 Xucutoff 1.0
 lambda 0.5
 
 !chains
-long 50
+long 40
 lseg 0.5
 cuantas 1000000
 
@@ -91,13 +93,27 @@ dielP 3.0
 dielS 10.0
 
 !systemtype
-systemtype 41
+systemtype 42
 ! channel radii in nm
 8.0
 ! Reservoir size in delta units
-21
+0
 ! number of polymers in circunference
-16
+32
+! grafting point distance unit (nm)
+2
+! number of rings
+10
+! Fraccional posicion of rings inside the pore
+1
+2
+3
+4
+5
+6
+7
+8
+9
 ! charge
 0.0
 ! eps

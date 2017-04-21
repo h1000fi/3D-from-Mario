@@ -59,7 +59,7 @@ endif
 GIT_VERSION := $(shell git describe --abbrev=6 --dirty --always --tags)
 GFLAGS=-cpp -D_VERSION=\"$(GIT_VERSION)\"
 
-VER = ~/bin/3D_nanochannel
+VER = ~/bin/3D_channel
 
 all:	$(TARGET)
 
