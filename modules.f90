@@ -109,6 +109,9 @@ module kaist
 integer hguess
 integer spiral
 integer nspiral
+integer zrange
+integer nzmin
+integer nzmax
 real*8 hring
 real*8 oval
 integer nkp

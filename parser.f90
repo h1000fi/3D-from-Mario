@@ -310,6 +310,18 @@ do while (ios == 0)
    read(buffer, *, iostat=ios) nspiral
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
+ case ('zrange')
+   read(buffer, *, iostat=ios) zrange
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('nzmin')
+   read(buffer, *, iostat=ios) nzmin
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('nzmax')
+   read(buffer, *, iostat=ios) nzmax
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
  case ('hring')
    read(buffer, *, iostat=ios) hring
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)

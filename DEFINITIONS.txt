@@ -32,17 +32,20 @@ infile 0
 !what to scan: 1, hamiltonian inception parameter kp, 2, attraction strength st. If 1 then the system will use the first st value.
 vscan 1
 
-!hamiltonian inception 
-!hguess: rotational symmetry, hring: initial attractive zoneÂs distance to the wall (in xy plane), oval: 3D shape of the growing zone 1 means spherical  
+!hamiltonian inception
+!nkp size and the specific step values defines how the inception diffuse
+!spiral 0 short pore. hguess: rotational symmetry: 0, center phase; 1, ring phase; n>1, n clusters
+!hring: initial attractive zone's distance to the wall (in xy plane), oval: 3D shape of the growing zone 1 means spherical 
+!spiral 1 long pore. nspirals: number of points in rotational symmetry. zrange: number of points in z directon (effective nzmin to nzmax to allow finite length). hguess: how many 2pi/nspiral to rotate 
 spiral 1
-nspiral 3
+nspiral 2
 hguess 1
+zrange 100
+nzmin 20
+nzmax 80
 hring 6
 oval 1
-nkp 12
-1
-0.7
-0.5
+nkp 9
 0.3
 0.2
 0.15
@@ -101,19 +104,16 @@ systemtype 42
 ! number of polymers in circunference
 32
 ! grafting point distance unit (nm)
-2
+2.0
 ! number of rings
-10
-! Fraccional posicion of rings inside the pore
-1
-2
+6
+! position of rings inside the pore in units of grafting point distance specified above
 3
 4
 5
 6
 7
 8
-9
 ! charge
 0.0
 ! eps
