@@ -256,9 +256,10 @@ do ix=1,dimx
 
       do i=nzmin,nzmax
         do j=1,nspiral
-          hds2(i,j)=(float(2*ix-dimx)-2*cos(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
+          hds2(i,j)=min((iz-(i-0.5)*dimz/zrange)**2,(iz-dimz-(i-0.5)*dimz/zrange)**2,(iz+dimz-(i-0.5)*dimz/zrange)**2)
+          hds2(i,j)=4*(oval**2)*hds2(i,j)+(float(2*ix-dimx)-2*cos(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
           hds2(i,j)=hds2(i,j)+(float(2*iy-dimy)-2*sin(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
-          hds2(i,j)=hds2(i,j)/4.0*(delta**2)+(oval*float(iz-i*dimz/zrange)*delta)**2
+          hds2(i,j)=hds2(i,j)/4.0*(delta**2)
         end do
       end do
       hd = minval(hds2, mask = hds2 .gt.0)
