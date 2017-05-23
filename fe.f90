@@ -4,7 +4,7 @@
 !
 !
 !
-subroutine Free_Energy_Calc(looped)
+subroutine Free_Energy_Calc(vn,currentv)
 
 use system
 use const
@@ -23,6 +23,8 @@ use conformations
 use mparameters_monomer
 implicit none
 
+character*4  vn
+real*8 currentv
 integer looped
 real*8  q_tosend(ncha), sumgauche_tosend(ncha)
 real*8  q0(ncha), sumgauche0(ncha)
@@ -52,7 +54,7 @@ integer im, ip, ipp
 real*8 gradpsi2
 real*8 fv, fv2
 
-integer counter
+!integer counter
 real*8 psiv(3)
 
 integer, external :: PBCSYMI, PBCREFI
@@ -63,6 +65,8 @@ integer, external :: PBCSYMI, PBCREFI
 !
 
 ! Subordinados
+
+looped = 1
 
 entropy = 0.0
 q0 = 0.0
@@ -540,33 +544,33 @@ endif
 
           if(rank.eq.0) then
 
-         write(301,*)looped, Free_energy/float(dimz)/delta
+         write(301,*)vn, currentv, Free_energy/float(dimz)/delta
           flush(301)
-         write(302,*)looped, F_Mix_s/float(dimz)/delta 
+         write(302,*)vn, currentv, F_Mix_s/float(dimz)/delta 
           flush(302)
-         write(303,*)looped, F_Mix_pos/float(dimz)/delta
+         write(303,*)vn, currentv, F_Mix_pos/float(dimz)/delta
           flush(303)
-         write(304,*)looped, F_Mix_neg/float(dimz)/delta
+         write(304,*)vn, currentv, F_Mix_neg/float(dimz)/delta
           flush(304)
-         write(305,*)looped, F_Mix_Hplus/float(dimz)/delta
+         write(305,*)vn, currentv, F_Mix_Hplus/float(dimz)/delta
           flush(305)
-         write(306,*)looped, F_Mix_OHmin/float(dimz)/delta
+         write(306,*)vn, currentv, F_Mix_OHmin/float(dimz)/delta
           flush(306)
-         write(3071,*)looped, F_gauche/float(dimz)/delta
+         write(3071,*)vn, currentv, F_gauche/float(dimz)/delta
           flush(3071)
-         write(307,*)looped, F_Conf/float(dimz)/delta
+         write(307,*)vn, currentv, F_Conf/float(dimz)/delta
           flush(307)
-         write(308,*)looped, F_Eq/float(dimz)/delta
+         write(308,*)vn, currentv, F_Eq/float(dimz)/delta
           flush(308)
-         write(309,*)looped, F_vdW/float(dimz)/delta
+         write(309,*)vn, currentv, F_vdW/float(dimz)/delta
           flush(309)
-         write(410,*)looped, F_eps/float(dimz)/delta
+         write(410,*)vn, currentv, F_eps/float(dimz)/delta
           flush(410)
-         write(311,*)looped, F_electro/float(dimz)/delta
+         write(311,*)vn, currentv, F_electro/float(dimz)/delta
           flush(311)
-         write(312,*)looped, Free_energy2/float(dimz)/delta
+         write(312,*)vn, currentv, Free_energy2/float(dimz)/delta
           flush(312)
-         write(313,*)looped, mupol/float(dimz)/delta
+         write(313,*)vn, currentv, mupol/float(dimz)/delta
           flush(313)
 
          endif

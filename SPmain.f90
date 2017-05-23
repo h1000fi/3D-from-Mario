@@ -22,6 +22,7 @@ real*8 theta
 real*8, external :: rands
 logical flag
 character*10 filename
+character*4 vname
 integer j, i, ii, iii
 integer flagcrash
 real*8 stOK,kpOK
@@ -116,9 +117,11 @@ endif
  ii = 1
  sc = scs(ii)
 
-select case (vscan)
+!select case (vscan)
 
-case (1)
+!case (1)
+
+vname = 'HIkp'
 
 st = sts(1)
 kp = 1.0d10+kps(1)
@@ -143,15 +146,18 @@ do i = 1, nkp
  enddo
 
  counterr = counter + i + ii  - 1
- call Free_Energy_Calc(counterr)
+ call Free_Energy_Calc(vname,kp)
  if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
  call savedata(counterr)
  if(rank.eq.0)write(stdout,*) 'Save OK'
- call store2disk(counterr)
+ call store2disk(vname,kp)
 
 enddo
 
-case (2)
+!case (2)
+
+vname = 'hpho'
+counter = 0
 
 kp = 0
 st = 1.0d10+sts(1)
@@ -176,15 +182,15 @@ do i = 1, nst
  enddo
 
  counterr = counter + i + ii  - 1
- call Free_Energy_Calc(counterr)
+ call Free_Energy_Calc(vname,st)
  if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
  call savedata(counterr)
  if(rank.eq.0)write(stdout,*) 'Save OK'
- call store2disk(counterr)
+ call store2disk(vname,st)
 
 enddo
 
-endselect
+!endselect
 
 call endall
 end
