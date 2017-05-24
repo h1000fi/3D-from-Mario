@@ -148,7 +148,7 @@ do i = 1, nkp
  counterr = counter + i + ii  - 1
  call Free_Energy_Calc(vname,kp)
  if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
- call savedata(counterr)
+ call savedata(1)
  if(rank.eq.0)write(stdout,*) 'Save OK'
  call store2disk(vname,kp)
 
