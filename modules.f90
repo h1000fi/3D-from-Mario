@@ -122,6 +122,10 @@ integer nst
 real*8 st
 real*8 sts(100)
 
+integer npH
+real*8 pH
+real*8 pHs(100)
+
 integer nsc
 real*8 sc
 real*8 scs(100)

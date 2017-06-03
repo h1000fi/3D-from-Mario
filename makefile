@@ -59,7 +59,7 @@ endif
 GIT_VERSION := $(shell git describe --abbrev=6 --dirty --always --tags)
 GFLAGS=-cpp -D_VERSION=\"$(GIT_VERSION)\"
 
-VER = ~/bin/3D_channel
+VER = ~/bin/3D_channel_pH
 
 all:	$(TARGET)
 
@@ -85,52 +85,3 @@ depend dep:
 ifeq (.depend, $(wildcard .depend))
 include .depend
 endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

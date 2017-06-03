@@ -8,6 +8,8 @@ use const
 use montecarlo
 use ematrix
 use kaist
+use inputtemp
+use mparameters_monomer
 
 implicit none
 integer counter, counterr
@@ -25,7 +27,7 @@ character*10 filename
 character*4 vname
 integer j, i, ii, iii
 integer flagcrash
-real*8 stOK,kpOK
+real*8 stOK,kpOK,pHOK
 
 stdout = 6
 
@@ -154,7 +156,50 @@ do i = 1, nkp
 
 enddo
 
-!case (2)
+select case (vscan)
+
+case (1)
+
+zpol(2) = -1
+hydroph(2) = 1
+pKa(2) = 5.0
+
+vname = 'pHbk'
+counter = 0
+
+kp = 0
+pHbulk = 1.0d10+pHs(1)
+do i = 1, npH
+ do while (pHbulk.ne.pHs(i))
+  pHbulk = pHs(i)
+  if(rank.eq.0)write(stdout,*)'Switch to pH = ', pHbulk
+  flagcrash = 1
+  do while(flagcrash.eq.1)
+   call initall
+   flagcrash = 0
+   call solve(flagcrash)
+   if(flagcrash.eq.1) then
+    if(i.eq.1)stop
+    pHbulk = (pHbulk + pHOK)/2.0
+    if(rank.eq.0)write(stdout,*)'Error, switch to pH = ', pHbulk
+   endif
+  enddo
+
+  pHOK = pHbulk ! last st solved OK
+  if(rank.eq.0)write(stdout,*) 'Solved OK, pH: ', pHOK
+
+ enddo
+
+ counterr = counter + i + ii  - 1
+ call Free_Energy_Calc(vname,pHbulk)
+ if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
+ call savedata(counterr)
+ if(rank.eq.0)write(stdout,*) 'Save OK'
+ call store2disk(vname,pHbulk)
+
+enddo
+
+case (2)
 
 vname = 'hpho'
 counter = 0
@@ -190,7 +235,7 @@ do i = 1, nst
 
 enddo
 
-!endselect
+endselect
 
 call endall
 end

@@ -346,6 +346,13 @@ do while (ios == 0)
    read(fh,*)sts(i)
    enddo 
 
+ case ('npH')
+   read(buffer, *, iostat=ios) npH
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+   do i = 1, npH
+   read(fh,*)pHs(i)
+   enddo
 
  case ('nsc')
    read(buffer, *, iostat=ios) nsc
