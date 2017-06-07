@@ -60,7 +60,7 @@ hds2 = -1
 !-----------------------------------------------------
 ! Common variables
 
-shift = 1.0d-200
+shift = 1.0d-100
 
 ncells = dimx*dimy*dimz ! numero de celdas
 
