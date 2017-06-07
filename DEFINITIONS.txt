@@ -11,8 +11,8 @@ electroflag 0
 verbose 5
 
 !system size in units of delta
-dimx 36
-dimy 36
+dimx 50
+dimy 50
 dimz 40
 
 delta 0.5
@@ -25,12 +25,12 @@ gama 90.0
 cdiva 1.0
 
 !PBC PBC xmin xmax ymin ymax zmin zmax, 1=yes, 2=wall, 0=bulk
-PBC 0 0 0 0 1 1
+PBC 1 1 1 1 1 1
 
 !infile
 infile 0
-!what to scan: 1, hamiltonian inception parameter kp, 2, attraction strength st. If 1 then the system will use the first st value.
-vscan 1
+!what to scan: 1, pH. 2, Attraction strength st. The system will use the 1st value in the non-chosen array as a default input
+vscan 2
 
 !hamiltonian inception
 !nkp size and the specific step values defines how the inception diffuse
@@ -41,24 +41,31 @@ spiral 1
 nspiral 2
 hguess 1
 zrange 100
-nzmin 20
-nzmax 80
-hring 6
+nzmin 1
+nzmax 100
+hring -2
 oval 1
-nkp 9
-0.3
+nkp 8
+1
+0.7
+0.4
 0.2
-0.15
 0.1
-0.07
 0.05
-0.03
 0.02
 0
 
 !hydroph
-nst 1
+nst 5
 0.8
+0.75
+0.7
+0.65
+0.6
+
+!pH
+npH 1
+7
 
 !gauche
 benergy 0.0
@@ -95,25 +102,29 @@ scz 1
 dielP 3.0
 dielS 10.0
 
-!systemtype
-systemtype 42
+!systemtype 42: long pore, 52: long fiber
+systemtype 52
 ! channel radii in nm
-8.0
+5.0
 ! Reservoir size in delta units
 0
 ! number of polymers in circunference
-32
+15
 ! grafting point distance unit (nm)
 2.0
 ! number of rings
-6
+10
 ! position of rings inside the pore in units of grafting point distance specified above
+1
+2
 3
 4
 5
 6
 7
 8
+9
+10
 ! charge
 0.0
 ! eps
