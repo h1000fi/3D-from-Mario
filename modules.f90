@@ -20,6 +20,7 @@ integer vscan
 real*8 delta
 real*8 dx,dy,dz
 real*8 cdiva
+real*8 ftol
 integer  dimx 
 integer  dimy 
 integer  dimz 

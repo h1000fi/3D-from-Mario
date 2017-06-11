@@ -49,7 +49,7 @@ real*8 gradpsi2
 real*8 fv
 
 ! hamiltonian inception
-real*8 hfactor, hd
+real*8 hfactor, hd, hx, hy, hz, hr, ht1, ht2, ht
 real*8, allocatable :: hds(:)
 real*8, allocatable :: hds2(:,:)
 ALLOCATE(hds(1000))
@@ -256,10 +256,27 @@ do ix=1,dimx
 
       do i=nzmin,nzmax
         do j=1,nspiral
-          hds2(i,j)=min((iz-(i-0.5)*dimz/zrange)**2,(iz-dimz-(i-0.5)*dimz/zrange)**2,(iz+dimz-(i-0.5)*dimz/zrange)**2)
-          hds2(i,j)=4*(oval**2)*hds2(i,j)+(float(2*ix-dimx)-2*cos(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
-          hds2(i,j)=hds2(i,j)+(float(2*iy-dimy)-2*sin(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
-          hds2(i,j)=hds2(i,j)/4.0*(delta**2)
+!          hx=2*cos(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta
+!          hy=2*sin(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta
+!          hz=(i-0.5)*dimz/zrange
+!          hx=min((float(2*ix-3*dimx)-hx)**2,(float(2*ix-dimx)-hx)**2,(float(2*ix+dimx)-hx)**2)
+!          hy=min((float(2*iy-3*dimy)-hy)**2,(float(2*iy-dimy)-hy)**2,(float(2*iy+dimy)-hy)**2)
+!          hz=min((iz-hz)**2,(iz-dimz-hz)**2,(iz+dimz-hz)**2)
+!          hds2(i,j)=(hx+hy+4*(oval**2)*hz)/4.0*(delta**2)
+
+          hr=sqrt((float(2*ix-dimx)**2+float(2*iy-dimy)**2)/4*(delta**2))
+          hr=(hr-hring)**2
+          ht1=hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral
+          ht2=atan(float(2*ix-dimx)/float(2*iy-dimy))
+          ht=min((ht1-ht2)**2,(2*pi-abs(ht1-ht2))**2)*(hring**2)
+          hz=(i-0.5)*dimz/zrange
+          hz=min((iz-hz)**2,(iz-dimz-hz)**2,(iz+dimz-hz)**2)*(oval**2)*(delta**2)
+          hds2(i,j)=hr+ht+hz
+
+!          hds2(i,j)=min((iz-(i-0.5)*dimz/zrange)**2,(iz-dimz-(i-0.5)*dimz/zrange)**2,(iz+dimz-(i-0.5)*dimz/zrange)**2)
+!          hds2(i,j)=4*(oval**2)*hds2(i,j)+(float(2*ix-dimx)-2*cos(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
+!          hds2(i,j)=hds2(i,j)+(float(2*iy-dimy)-2*sin(hguess*i*2*pi/zrange/nspiral+j*2*pi/nspiral)*hring/delta)**2
+!          hds2(i,j)=hds2(i,j)/4.0*(delta**2)
         end do
       end do
       hd = minval(hds2, mask = hds2 .gt.0)
