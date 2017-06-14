@@ -139,7 +139,7 @@ do i = 1, nkp
    if(kp.gt.0.0001) then
      ftol=1.0d-3
    else
-     ftol=1.0d-6
+     ftol=0.5d-4
    endif
    call solve(flagcrash)
    if(flagcrash.eq.1) then
@@ -173,7 +173,7 @@ pKa(2) = 5.0
 
 vname = 'pHbk'
 counter = 0
-ftol=1.0d-6
+ftol=0.5d-4
 
 kp = 0
 pHbulk = 1.0d10+pHs(1)
@@ -211,7 +211,7 @@ case (2)
 
 vname = 'hpho'
 counter = 0
-ftol=1.0d-6
+ftol=0.5d-4
 
 kp = 0
 st = 1.0d10+sts(1)
