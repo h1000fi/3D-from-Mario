@@ -22,7 +22,7 @@ integer*4 ier2
 integer ncells
 real*8 x(*),f(*)
 real*8 protemp
-integer i,j, ix, iy, iz, ii, ax, ay, az
+integer i,j, ix, iy, iz, ii, ax, ay, az, az_nopbc
 integer im, ip
 integer jx, jy, jz, jj
 real*8 xpot(dimx, dimy, dimz, N_monomer)
@@ -33,6 +33,8 @@ real*8 MVV,MUU,MWW,MVU,MVW,MUW
 real*8 psivv,psiuu,psiww, psivu,psivw,psiuw
 real*8 psiv(3), epsv(3)
 real*8 xtotalsum(dimx,dimy,dimz)
+
+real*8 local_eflow
 
 integer, external :: PBCSYMI, PBCREFI
 
@@ -392,8 +394,20 @@ do jj = 1, cpp(rank+1)
    do j=1,long
     ax = px(i, j, jj) ! cada uno para su cadena...
     ay = py(i, j, jj)
-    az = pz(i, j, jj)         
-    pro(i, jj) = pro(i, jj) * xpot(ax, ay, az, segtype(j))
+    az = pz(i, j, jj)
+    if((flow.eq.1).and.(j.gt.1)) then
+      if(pz(i, j, jj)-pz(i, j-1, jj).gt.(0.4*dimz)) then
+        az_nopbc = pz(i, j, jj)-dimz
+      elseif(pz(i, j, jj)-pz(i, j-1, jj).lt.(-0.4*dimz)) then
+        az_nopbc = pz(i, j, jj)+dimz
+      else
+        az_nopbc = pz(i, j, jj)
+      endif
+      local_eflow =exp(eflow*(az_nopbc - pz(i, 1, jj)))
+    else
+      local_eflow = 1
+    endif
+    pro(i, jj) = pro(i, jj) * xpot(ax, ay, az, segtype(j)) * local_eflow
    enddo
     pro(i,jj) = pro(i,jj)*exp(-benergy*ngauche(i,ii)) ! energy of gauche bonds
 

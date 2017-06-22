@@ -544,33 +544,33 @@ endif
 
           if(rank.eq.0) then
 
-         write(301,*)vn, currentv, Free_energy/ncha
+         write(301,*)vn, currentv, Free_energy/ncha, Free_energy/float(dimz)/delta
           flush(301)
-         write(302,*)vn, currentv, F_Mix_s/ncha
+         write(302,*)vn, currentv, F_Mix_s/ncha, F_Mix_s/float(dimz)/delta
           flush(302)
-         write(303,*)vn, currentv, F_Mix_pos/ncha
+         write(303,*)vn, currentv, F_Mix_pos/ncha, F_Mix_pos/float(dimz)/delta
           flush(303)
-         write(304,*)vn, currentv, F_Mix_neg/ncha
+         write(304,*)vn, currentv, F_Mix_neg/ncha, F_Mix_neg/float(dimz)/delta
           flush(304)
-         write(305,*)vn, currentv, F_Mix_Hplus/ncha
+         write(305,*)vn, currentv, F_Mix_Hplus/ncha, F_Mix_Hplus/float(dimz)/delta
           flush(305)
-         write(306,*)vn, currentv, F_Mix_OHmin/ncha
+         write(306,*)vn, currentv, F_Mix_OHmin/ncha, F_Mix_OHmin/float(dimz)/delta
           flush(306)
-         write(3071,*)vn, currentv, F_gauche/ncha
+         write(3071,*)vn, currentv, F_gauche/ncha, F_gauche/float(dimz)/delta
           flush(3071)
-         write(307,*)vn, currentv, F_Conf/ncha
+         write(307,*)vn, currentv, F_Conf/ncha, F_Conf/float(dimz)/delta
           flush(307)
-         write(308,*)vn, currentv, F_Eq/ncha
+         write(308,*)vn, currentv, F_Eq/ncha, F_Eq/float(dimz)/delta
           flush(308)
-         write(309,*)vn, currentv, F_vdW/ncha
+         write(309,*)vn, currentv, F_vdW/ncha, F_vdW/float(dimz)/delta
           flush(309)
-         write(410,*)vn, currentv, F_eps/ncha
+         write(410,*)vn, currentv, F_eps/ncha, F_eps/float(dimz)/delta
           flush(410)
-         write(311,*)vn, currentv, F_electro/ncha
+         write(311,*)vn, currentv, F_electro/ncha, F_electro/float(dimz)/delta
           flush(311)
-         write(312,*)vn, currentv, Free_energy2/ncha
+         write(312,*)vn, currentv, Free_energy2/ncha, Free_energy2/float(dimz)/delta
           flush(312)
-         write(313,*)vn, currentv, mupol/ncha
+         write(313,*)vn, currentv, mupol/ncha, mupol/float(dimz)/delta
           flush(313)
 
          endif

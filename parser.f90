@@ -244,6 +244,13 @@ do while (ios == 0)
    read(buffer, *, iostat=ios) lseg
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
+ case ('flow')
+   read(buffer, *, iostat=ios) flow
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+ case ('eflow')
+   read(buffer, *, iostat=ios) eflow
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
  case ('dielP')
    read(buffer, *, iostat=ios) dielP

@@ -187,6 +187,8 @@ integer randominput
 integer epstype
 integer verbose
 integer stdout
+integer flow
+real*8 eflow
 endmodule
 
 module kai
