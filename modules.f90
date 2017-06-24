@@ -127,6 +127,10 @@ integer npH
 real*8 pH
 real*8 pHs(100)
 
+integer neflow
+real*8 eflow
+real*8 eflows(100)
+
 integer nsc
 real*8 sc
 real*8 scs(100)
@@ -187,8 +191,6 @@ integer randominput
 integer epstype
 integer verbose
 integer stdout
-integer flow
-real*8 eflow
 endmodule
 
 module kai

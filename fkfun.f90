@@ -16,13 +16,14 @@ use ellipsoid
 use transform
 use kaist
 use mparameters_monomer
+use channel
 implicit none
 
 integer*4 ier2
 integer ncells
 real*8 x(*),f(*)
 real*8 protemp
-integer i,j, ix, iy, iz, ii, ax, ay, az, az_nopbc
+integer i,j, ix, iy, iz, ii, ax, ay, az, az_nopbc, rfactor
 integer im, ip
 integer jx, jy, jz, jj
 real*8 xpot(dimx, dimy, dimz, N_monomer)
@@ -395,7 +396,7 @@ do jj = 1, cpp(rank+1)
     ax = px(i, j, jj) ! cada uno para su cadena...
     ay = py(i, j, jj)
     az = pz(i, j, jj)
-    if((flow.eq.1).and.(j.gt.1)) then
+    if((vscan.eq.3).and.(j.gt.1)) then
       if(pz(i, j, jj)-pz(i, j-1, jj).gt.(0.4*dimz)) then
         az_nopbc = pz(i, j, jj)-dimz
       elseif(pz(i, j, jj)-pz(i, j-1, jj).lt.(-0.4*dimz)) then
@@ -403,7 +404,12 @@ do jj = 1, cpp(rank+1)
       else
         az_nopbc = pz(i, j, jj)
       endif
-      local_eflow =exp(eflow*(az_nopbc - pz(i, 1, jj)))
+      if(abs(az_nopbc - pz(i, j-1, jj)).gt.2) then
+        write(stdout,*)'discontinuous polymer'
+        stop
+      endif
+      rfactor = ((ax-0.5*dimx)**2+(ay-0.5*dimy)**2)/(4*rchannel**2)
+      local_eflow =exp(eflow*(1-rfactor)*(az_nopbc - pz(i, j-1, jj)))
     else
       local_eflow = 1
     endif

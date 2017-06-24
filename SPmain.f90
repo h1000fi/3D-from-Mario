@@ -28,7 +28,7 @@ character*10 filename
 character*4 vname
 integer j, i, ii, iii
 integer flagcrash
-real*8 stOK,kpOK,pHOK
+real*8 stOK,kpOK,pHOK,eflowOK
 
 stdout = 6
 
@@ -133,6 +133,8 @@ endif
 vname = 'HIkp'
 
 st = sts(1)
+eflow = 0
+
 kp = 1.0d10+kps(1)
 do i = 1, nkp
  do while (kp.ne.kps(i))
@@ -246,6 +248,44 @@ do i = 1, nst
  call savedata(counterr)
  if(rank.eq.0)write(stdout,*) 'Save OK'
  call store2disk(vname,st)
+
+enddo
+
+case (3)
+
+vname = 'flow'
+counter = 0
+ftol=1.0d-5
+
+kp = 0
+eflow = 1.0d10+eflows(1)
+do i = 1, neflow
+ do while (eflow.ne.eflows(i))
+  eflow = eflows(i)
+  if(rank.eq.0)write(stdout,*)'Switch to eflow = ', eflow
+  flagcrash = 1
+  do while(flagcrash.eq.1)
+   call initall
+   flagcrash = 0
+   call solve(flagcrash)
+   if(flagcrash.eq.1) then
+    if(i.eq.1)stop
+    eflow = (eflow + eflowOK)/2.0
+    if(rank.eq.0)write(stdout,*)'Error, switch to eflow = ', eflow
+   endif
+  enddo
+
+  eflowOK = eflow ! last st solved OK
+  if(rank.eq.0)write(stdout,*) 'Solved OK, eflow: ', eflowOK
+
+ enddo
+
+ counterr = counter + i + ii  - 1
+ call Free_Energy_Calc(vname,eflow)
+ if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
+ call savedata(counterr)
+ if(rank.eq.0)write(stdout,*) 'Save OK'
+ call store2disk(vname,eflow)
 
 enddo
 

@@ -11,9 +11,9 @@ electroflag 0
 verbose 5
 
 !system size in units of delta
-dimx 50
-dimy 50
-dimz 40
+dimx 36
+dimy 36
+dimz 24
 
 delta 0.5
 
@@ -25,12 +25,12 @@ gama 90.0
 cdiva 1.0
 
 !PBC PBC xmin xmax ymin ymax zmin zmax, 1=yes, 2=wall, 0=bulk
-PBC 1 1 1 1 1 1
+PBC 0 0 0 0 1 1
 
 !infile
-infile 0
-!what to scan: 1, pH. 2, Attraction strength st. The system will use the 1st value in the non-chosen array as a default input
-vscan 2
+infile 1
+!what to scan: will always start with hamiltonian inception parameter kp, use kp=0 with a good infile, 1. pH (electrostatic interaction didn't work well) 2. attraction strength st. 3. flow-condition-like field strength 
+vscan 3
 
 !hamiltonian inception
 !nkp size and the specific step values defines how the inception diffuse
@@ -38,34 +38,37 @@ vscan 2
 !hring: initial attractive zone's distance to the wall (in xy plane), oval: 3D shape of the growing zone 1 means spherical 
 !spiral 1 long pore. nspirals: number of points in rotational symmetry. zrange: number of points in z directon (effective nzmin to nzmax to allow finite length). hguess: how many 2pi/nspiral to rotate 
 spiral 1
-nspiral 2
-hguess 1
-zrange 100
+nspiral 100
+hguess 0
+zrange 1
 nzmin 1
-nzmax 100
-hring -2
+nzmax 1
+hring 6
 oval 1
-nkp 8
-1
+nkp 1
+0
 0.7
 0.4
+0.3
 0.2
 0.1
-0.05
-0.02
 0
 
 !hydroph
-nst 5
-0.8
-0.75
-0.7
-0.65
+nst 1
 0.6
 
-!pH
-npH 1
-7
+neflow 10
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
 
 !gauche
 benergy 0.0
@@ -102,18 +105,18 @@ scz 1
 dielP 3.0
 dielS 10.0
 
-!systemtype 42: long pore, 52: long fiber
-systemtype 52
+!systemtype
+systemtype 42
 ! channel radii in nm
-5.0
+8.0
 ! Reservoir size in delta units
 0
 ! number of polymers in circunference
-15
+24
 ! grafting point distance unit (nm)
 2.0
 ! number of rings
-10
+6
 ! position of rings inside the pore in units of grafting point distance specified above
 1
 2
@@ -121,10 +124,6 @@ systemtype 52
 4
 5
 6
-7
-8
-9
-10
 ! charge
 0.0
 ! eps
