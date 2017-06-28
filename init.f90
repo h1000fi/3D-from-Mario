@@ -64,7 +64,8 @@ if(rank.eq.0) then
        open(unit=410, file='F_eps.dat',  access='APPEND')
        open(unit=311, file='F_electro.dat',  access='APPEND')
        open(unit=312, file='F_tot2.dat',  access='APPEND')
-       open(unit=314, file='F_mixpos2.dat',  access='APPEND')
+       open(unit=313, file='F_mixpos2.dat',  access='APPEND')
+       open(unit=315, file='Polymer_charge.dat',  access='APPEND')
 endif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -187,6 +188,7 @@ close(310)
 close(311)
 close(312)
 close(313)
+close(315)
 
 call MPI_FINALIZE(ierr) ! finaliza MPI    
 stop
@@ -265,8 +267,8 @@ if(rank.eq.0) then ! solo el jefe escribe a disco....
 !  title = 'avOHm'
 !  call savetodisk(xOHmin, title, cccc)
 ! fdis
-!  title = 'frdis'
-!  call savetodisk(fdis, title, cccc)
+  title = 'frdis'
+  call savetodisk(fdis, title, cccc)
 ! Potencial electrostatico
 
   temp(1:dimx,1:dimy, 1:dimz) = psi(1:dimx,1:dimy, 1:dimz)

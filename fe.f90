@@ -34,6 +34,7 @@ real*8 F_Mix_neg, F_Mix_Hplus
 real*8 Free_energy2, sumpi, sumrho, sumel, sumdiel, suma, mupol
 real*8 temp
 real*8 F_Mix_OHmin, F_gauche, F_Conf, F_Eq, F_vdW, F_eps, F_electro
+real*8 charge_all
 real*8 pro0(cuantas, maxcpp)
 real*8 entropy(dimx,dimy,dimz)
 character*5  title
@@ -444,6 +445,18 @@ endif
 
       Free_Energy = Free_Energy + F_electro
 
+      charge_all = 0.0
+
+      do ix  = 1, dimx
+      do iy  = 1, dimy
+      do iz  = 1, dimz
+
+      charge_all = charge_all + delta**3*qtot(ix, iy, iz)/vsol
+
+      enddo
+      enddo
+      enddo
+
 ! 10. Pol-prot
 
       F_eps = 0.0 
@@ -570,8 +583,11 @@ endif
           flush(311)
          write(312,*)vn, currentv, Free_energy2/ncha, Free_energy2/float(dimz)/delta
           flush(312)
-         write(313,*)vn, currentv, mupol/ncha, mupol/float(dimz)/delta
-          flush(313)
+         write(314,*)vn, currentv, mupol/ncha, mupol/float(dimz)/delta
+          flush(314)
+         write(315,*)vn, currentv, charge_all/ncha, charge_all/float(dimz)/delta
+          flush(315)
+
 
          endif
  
