@@ -192,7 +192,7 @@ do i = 1, npH
   if(rank.eq.0)write(stdout,*)'Switch to pH = ', pHbulk
   flagcrash = 1
   do while(flagcrash.eq.1)
-   call initall
+   call reinitall
    flagcrash = 0
    call solve(flagcrash)
    if(flagcrash.eq.1) then
@@ -267,7 +267,7 @@ do i = 1, neflow
   if(rank.eq.0)write(stdout,*)'Switch to eflow = ', eflow
   flagcrash = 1
   do while(flagcrash.eq.1)
-   call initall
+   call reinitall
    flagcrash = 0
    call solve(flagcrash)
    if(flagcrash.eq.1) then

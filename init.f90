@@ -110,6 +110,61 @@ expmuOHmin = xOHminbulk /xsolbulk   ! vsol = vOHmin
 
 end subroutine
 
+subroutine reinitall
+use molecules
+use const
+use bulk
+use MPI
+use ellipsoid
+use chainsdat
+use inputtemp
+use mparameters_monomer
+implicit none
+integer im
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Input-dependent variables
+!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+constqE = vpol/(2.0d0*constq)
+dielW = 78.54
+dielPr = dielP/dielW
+dielSr = dielS/dielW
+
+
+do im = 1, N_monomer
+Ka(im)=10**(-pKa(im))
+select case (zpol(im))
+case (-1) ! acid
+K0(im) = (Ka(im)*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Ka
+case (1) ! base
+K0(im) = ((Kw/Ka(im))*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Kb 
+end select
+enddo
+
+cHplus = 10**(-pHbulk)    ! concentration H+ in bulk
+xHplusbulk = (cHplus*Na/(1.0d24))*(vsol)  ! volume fraction H+ in bulk vH+=vsol
+pOHbulk= pKw -pHbulk
+cOHmin = 10**(-pOHbulk)   ! concentration OH- in bulk
+xOHminbulk = (cOHmin*Na/(1.0d24))*(vsol)  ! volume fraction H+ in bulk vH+=vsol  
+xsalt=(csalt*Na/(1.0d24))*(vsalt*vsol)   ! volume fraction salt,csalt in mol/l 
+if(pHbulk.le.7) then  ! pH<= 7
+  xposbulk=xsalt/zpos
+  xnegbulk=-xsalt/zneg+(xHplusbulk -xOHminbulk) *vsalt ! NaCl+ HCl  
+else                  ! pH >7 
+  xposbulk=xsalt/zpos +(xOHminbulk -xHplusbulk) *vsalt ! NaCl+ NaOH   
+  xnegbulk= -xsalt/zneg 
+endif
+
+xsolbulk=1.0 -xHplusbulk -xOHminbulk -xnegbulk -xposbulk 
+K0 = (Ka*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
+expmupos = xposbulk /xsolbulk**vsalt
+expmuneg = xnegbulk /xsolbulk**vsalt
+expmuHplus = xHplusbulk /xsolbulk   ! vsol = vHplus 
+expmuOHmin = xOHminbulk /xsolbulk   ! vsol = vOHmin 
+
+end subroutine
+
 subroutine endall
 use MPI
 implicit none
