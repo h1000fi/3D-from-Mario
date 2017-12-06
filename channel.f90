@@ -37,6 +37,7 @@ real*8 volxx(dimx,dimy,dimz)
 real*8 x(3), v(3), hcyl
 integer nbands
 
+
 cutarea = 0.0 ! throw away cells that have less area than cutarea x area of the cell with largest area  
 sumpolseg = 0.0
 
@@ -734,7 +735,7 @@ case (4) ! uniformed coated cylinder
    npointz = nint(float(NBRUSH)*hcyl/(2.0*pi*rchannel)/cos(30.0/180.0*pi))   ! number of sites along the z - coordinate, first site is at bdist
 case (41) ! only one row
    npointz = 1
-case (42, 52)
+case (42, 52, 60)
    npointz = Nrings
 endselect
 
@@ -808,7 +809,7 @@ select case (randominput)
 endselect
 
 
-if ((systemtype.eq.42).or.(systemtype.eq.52)) then
+if ((systemtype.eq.42).or.(systemtype.eq.52).or.(systemtype.eq.60)) then
  tethaadd = 0.0
 else
  tethaadd = mod(jjjz,2)*2.0*pi/float(npointt)*0.5
@@ -823,13 +824,13 @@ case(4)
 x(3) = float(jjjz-1)/float(npointz)*hcyl+rz+hcyl0
 case(41)
 x(3) = float(jjjz-1)/float(npointz)*hcyl+hcyl0 ! for systemtype = 41 shift only in tetha, no in z
-case(42, 52)
+case(42, 52, 60)
 x(3) = ringpos(jjjz)*gspacer+hcyl0 
 end select
 
 !x in  real space
 v = MATMUL(MAT,x)
-if((systemtype.eq.42).or.(systemtype.eq.52)) then
+if((systemtype.eq.42).or.(systemtype.eq.52).or.(systemtype.eq.60)) then
 v(3) = v(3) + float((dimz-RdimZ*2))/2.0*delta ! centers the first row of polymers at the middle of the layer, useful to avoid numerical rounding errors.
 else
 v(3) = v(3) + float((dimz-RdimZ*2)/npointz)/2.0*delta ! centers the first row of polymers at the middle of the layer, useful to avoid numerical rounding errors.
@@ -880,7 +881,7 @@ enddo ! jjjz
 do i = 1, ncha1
 ! Moves the position of the first segment lseg/2 away from the surface to prevent collision due to round errors.
 select case (systemtype)
-case (2, 3, 4, 41, 42)
+case (2, 3, 4, 41, 42, 60)
 com1(i,1) = com1(i,1) - lseg*((com1(i,1)-originc(1)))/rchannel 
 com1(i,2) = com1(i,2) - lseg*((com1(i,2)-originc(2)))/rchannel 
 case (52)
@@ -1151,9 +1152,12 @@ com1(i,2) = com1(i,2) - 0.5*lseg*((com1(i,2)-originc(2)))/rchannel
 enddo
 end
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
 subroutine update_matrix_planar(flag)
 use system
 use channel
@@ -1209,7 +1213,11 @@ do i = 1, Npolx
 
  v(1) = spacex*float(i)-spacex/2.0
  v(2) = spacey*float(j)-spacey/2.0
+<<<<<<< HEAD
  v(3) = 0.0
+=======
+ v(3) = lseg
+>>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
 
 ! v in transformed space, x in real space
 
@@ -1217,8 +1225,13 @@ do i = 1, Npolx
 
  com(ncha,:) = x(:)
  p0(ncha,:) = int(v(:)/delta)+1
+<<<<<<< HEAD
  
  volxx(p0(ncha,1),p0(ncha,2), p0(ncha,3)) = 1.0 
+=======
+
+ volxx(p0(ncha,1),p0(ncha,2), p0(ncha,3)) = 1.0
+>>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
  volx(ncha) = 1.0
  enddo
 enddo
@@ -1243,4 +1256,7 @@ flag=.false.
 
 end subroutine
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30

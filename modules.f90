@@ -96,10 +96,8 @@ endmodule
 
 module molecules
 use system
-integer potential
 real*8 vsol
 real*8 vpol
-real*8 rpol
 real*8 vpol0
 real*8 vsol0
 real*8 vsalt
@@ -151,10 +149,10 @@ real*8 shift
 endmodule
 
 module conformations
-integer*1, allocatable :: px(:,:,:)
-integer*1, allocatable :: py(:,:,:)
-integer*1, allocatable :: pz(:,:,:)
-integer*1, allocatable :: ngauche(:,:)
+integer*2, allocatable :: px(:,:,:)
+integer*2, allocatable :: py(:,:,:)
+integer*2, allocatable :: pz(:,:,:)
+integer*2, allocatable :: ngauche(:,:)
 endmodule
 
 module MPI
@@ -195,7 +193,6 @@ integer stdout
 endmodule
 
 module kai
-real*8 lambda
 integer Xulimit
 real*8 cutoff
 real*8, allocatable :: Xu(:,:,:)

@@ -22,9 +22,9 @@ zpos = 1.0
 zneg = -1.0
 vsol = vsol0
 vsalt=((4.0/3.0)*pi*(0.2)**3)/vsol  ! volume salt in units of vsol 0.2=radius salt  
-vpol= ((4.0/3.0)*pi*(rpol)**3)/vsol
 constq=delta*delta*4.0*pi*lb/vsol   ! multiplicative factor in poisson eq  
 pKw = 14
+Kw = 10**(-pKw)
 error = 1e-4 ! para comparar con la norma...
 errel=1d-6
 itmax=200
@@ -78,16 +78,6 @@ dielPr = dielP/dielW
 dielSr = dielS/dielW
 
 
-do im = 1, N_monomer
-Ka(im)=10**(-pKa(im))
-select case (zpol(im))
-case (-1) ! acid
-K0(im) = (Ka(im)*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Ka
-case (1) ! base
-K0(im) = ((Kw/Ka(im))*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Kb 
-end select
-enddo
-
 cHplus = 10**(-pHbulk)    ! concentration H+ in bulk
 xHplusbulk = (cHplus*Na/(1.0d24))*(vsol)  ! volume fraction H+ in bulk vH+=vsol
 pOHbulk= pKw -pHbulk
@@ -103,7 +93,17 @@ else                  ! pH >7
 endif
 
 xsolbulk=1.0 -xHplusbulk -xOHminbulk -xnegbulk -xposbulk 
-K0 = (Ka*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
+
+do im = 1, N_monomer
+Ka(im)=10**(-pKa(im))
+select case (zpol(im))
+case (-1) ! acid
+K0(im) = (Ka(im)*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Ka
+case (1) ! base
+K0(im) = ((Kw/Ka(im))*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant, Kb 
+end select
+enddo
+
 expmupos = xposbulk /xsolbulk**vsalt
 expmuneg = xnegbulk /xsolbulk**vsalt
 expmuHplus = xHplusbulk /xsolbulk   ! vsol = vHplus 
@@ -268,13 +268,18 @@ if(rank.eq.0) then ! solo el jefe escribe a disco....
 !  call savetodisk(xOHmin, title, cccc)
 ! fdis
   title = 'frdis'
-  call savetodisk(fdis, title, cccc)
+  temp(1:dimx,1:dimy, 1:dimz) = fdis(1:dimx,1:dimy, 1:dimz,1)
+  call savetodisk(temp, title, cccc)
+
+
 ! Potencial electrostatico
 
   temp(1:dimx,1:dimy, 1:dimz) = psi(1:dimx,1:dimy, 1:dimz)
 
   title = 'poten'
   call savetodisk(temp, title, cccc)
+
+
 ! Particle
 !  title = 'avpar'
 !  call savetodisk(volprot, title, cccc)

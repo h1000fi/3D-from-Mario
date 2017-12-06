@@ -39,7 +39,7 @@ do jj = 1, cpp(rank+1)
        x(3) = in1(j, 1)
 
        if((systemtype.eq.2).or.(systemtype.eq.3).or.(systemtype.eq.4).or.(systemtype.eq.41)   &
-       .or.(systemtype.eq.42).or.(systemtype.eq.52))call rot_chain_cyl(x,ii) ! only for cylinders or channels
+       .or.(systemtype.eq.42).or.(systemtype.eq.52).or.(systemtype.eq.60))call rot_chain_cyl(x,ii)
 
        x = x + posicion(ii,:)
        v = MATMUL(MAT,x)
@@ -61,6 +61,27 @@ case (1)
 
 case (6)
        if(testsystem(x).eq.-1) then ! if testsystem = -1,  there is a collision with all or particle 
+         flag = -1
+         exit
+       endif
+
+       if(testsystem(x).eq.-2) then ! if testsystem = -2, the polymer goes out-of-system
+         write(stdout,*) 'pxs: out-of-system'
+         stop
+       endif
+
+case (60)
+       if(testsystemc(x).eq.-1) then ! if testsystem = -1,  there is a collision with channel
+         flag = -1
+         exit
+       endif
+
+       if(testsystemc(x).eq.-2) then ! if testsystem = -2, the polymer goes out-of-system
+         write(stdout,*) 'pxs: out-of-system'
+         stop
+       endif
+
+       if(testsystem(x).eq.-1) then ! if testsystem = -1,  there is a collision with all or one particle 
          flag = -1
          exit
        endif

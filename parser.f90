@@ -55,7 +55,6 @@ hguess = ndi
 spiral = ndi
 nspiral = ndi
 vscan = ndi
-potential = ndi
 scx = ndi
 scy = ndi
 scz = ndi
@@ -82,11 +81,10 @@ dy = ndr
 dz = ndr
 cdiva = ndr
 csalt = ndr
-rpol = ndr
+vpol = ndr
 vsol0 = ndr
 gama0 = ndr
 benergy = ndr
-lambda = ndr
 
 nsc = 1
 scs(1) = 1.0
@@ -264,20 +262,12 @@ do while (ios == 0)
    read(buffer, *, iostat=ios) benergy
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
- case ('rpol')
-   read(buffer, *, iostat=ios) rpol
+ case ('vpol')
+   read(buffer, *, iostat=ios) vpol
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
  case ('vscan')
    read(buffer, *, iostat=ios) vscan
-   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
-
- case ('potential')
-   read(buffer, *, iostat=ios) potential
-   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
-
- case ('lambda')
-   read(buffer, *, iostat=ios) lambda
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
 
  case ('sigmar')
@@ -403,7 +393,7 @@ do while (ios == 0)
      read(fh, *) echargec
      read(fh, *) basura
      read(fh, *) eepsc
- 
+
     case(6) ! planar surface
      read(fh, *) basura
      read(fh, *) Npolx, Npoly ! number of polymers in x and y
@@ -412,7 +402,7 @@ do while (ios == 0)
      NNN = 0 ! no particles
 
  
-    case(42, 52)
+    case(42, 52) ! 42: channel, 52: rod
      read(fh, *) basura
      read(fh, *) rchannel
      read(fh, *) basura
@@ -436,6 +426,66 @@ do while (ios == 0)
      read(fh, *) echargec
      read(fh, *) basura
      read(fh, *) eepsc
+
+    case(60) ! channel + particle
+     read(fh, *) basura
+     read(fh, *) rchannel
+     read(fh, *) basura
+     read(fh, *) RdimZ
+     read(fh, *) basura
+     read(fh, *) NBRUSH ! number of brushes in the tetha direction
+     read(fh, *) basura
+     read(fh, *) Nrings
+
+     allocate (ringpos(Nrings))
+
+     read(fh, *) basura
+     do i = 1, Nrings
+       read(fh, *) ringpos(i)
+     enddo
+      ringpos = ringpos - 0.5
+    
+     NNN = 1 ! only one particle
+
+     call allocateell
+
+     read(fh, *), basura  
+     do j = 1, NNN
+     read(fh, *), Rellf(1,j), Rellf(2,j), Rellf(3,j)
+     if(rank.eq.0)write(stdout,*) 'parser:','Set particle',j,'pos to',  Rellf(1,j), Rellf(2,j), Rellf(3,j)
+     enddo
+
+    
+
+     read(fh, *), basura
+     do j = 1, NNN
+     read(fh, *), Aell(1,j), Aell(2,j), Aell(3,j)
+     if(rank.eq.0)write(stdout,*) 'parser:','Set particle',j,'axis to',  Aell(1,j), Aell(2,j), Aell(3,j)
+     enddo
+     read(fh, *), basura
+
+     do j = 1, NNN
+     read(fh, *), rotmatrix(1,1,j), rotmatrix(1,2,j), rotmatrix(1,3,j)
+     read(fh, *), rotmatrix(2,1,j), rotmatrix(2,2,j), rotmatrix(2,3,j)
+     read(fh, *), rotmatrix(3,1,j), rotmatrix(3,2,j), rotmatrix(3,3,j)
+     if(rank.eq.0) then
+         write(stdout,*) 'parser:','Set particle',j,'rotation to:'
+         write(stdout,*) 'parser:', rotmatrix(1,1,j), rotmatrix(1,2,j), rotmatrix(1,3,j)
+         write(stdout,*) 'parser:', rotmatrix(2,1,j), rotmatrix(2,2,j), rotmatrix(2,3,j)
+         write(stdout,*) 'parser:', rotmatrix(3,1,j), rotmatrix(3,2,j), rotmatrix(3,3,j)
+     endif
+     enddo
+
+     read(fh, *), basura
+     do j = 1, NNN
+     read(fh, *), echarge(j)
+     if(rank.eq.0)write(stdout,*) 'parser:','Set particle',j,'charge to', echarge(j)
+     enddo
+     read(fh, *), basura
+     do j = 1, NNN
+     read(fh, *), eeps(j)
+     if(rank.eq.0)write(stdout,*) 'parser:','Set particle',j,'hydrophobicity to', eeps(j)
+     enddo
 
     case(1) 
      read(fh, *) basura
