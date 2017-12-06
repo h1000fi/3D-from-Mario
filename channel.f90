@@ -1152,12 +1152,6 @@ com1(i,2) = com1(i,2) - 0.5*lseg*((com1(i,2)-originc(2)))/rchannel
 enddo
 end
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
 subroutine update_matrix_planar(flag)
 use system
 use channel
@@ -1213,11 +1207,7 @@ do i = 1, Npolx
 
  v(1) = spacex*float(i)-spacex/2.0
  v(2) = spacey*float(j)-spacey/2.0
-<<<<<<< HEAD
- v(3) = 0.0
-=======
  v(3) = lseg
->>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
 
 ! v in transformed space, x in real space
 
@@ -1225,13 +1215,8 @@ do i = 1, Npolx
 
  com(ncha,:) = x(:)
  p0(ncha,:) = int(v(:)/delta)+1
-<<<<<<< HEAD
- 
- volxx(p0(ncha,1),p0(ncha,2), p0(ncha,3)) = 1.0 
-=======
 
  volxx(p0(ncha,1),p0(ncha,2), p0(ncha,3)) = 1.0
->>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
  volx(ncha) = 1.0
  enddo
 enddo
@@ -1256,7 +1241,3 @@ flag=.false.
 
 end subroutine
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4d1c7c30aa3d330b56d70e2ab287c859f446bb30
