@@ -63,7 +63,7 @@ endif
 GIT_VERSION := $(shell git describe --abbrev=6 --dirty --always --tags)
 GFLAGS=-cpp -D_VERSION=\"$(GIT_VERSION)\"
 
-VER = ~/bin/3D_curvature
+VER = ~/bin/3D_curvature_particle
 
 all:	$(TARGET)
 
