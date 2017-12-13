@@ -178,9 +178,9 @@ select case (vscan)
 
 case (1)
 
-zpol(2) = -1
-hydroph(2) = 1
-pKa(2) = 5.0
+zpol(1) = 1
+hydroph(1) = 0
+pKa(1) = 10.0
 
 vname = 'pHbk'
 counter = 0

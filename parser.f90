@@ -435,6 +435,8 @@ do while (ios == 0)
      read(fh, *) basura
      read(fh, *) NBRUSH ! number of brushes in the tetha direction
      read(fh, *) basura
+     read(fh, *) gspacer ! grafting point distance unit (nm)
+     read(fh, *) basura
      read(fh, *) Nrings
 
      allocate (ringpos(Nrings))
@@ -443,7 +445,7 @@ do while (ios == 0)
      do i = 1, Nrings
        read(fh, *) ringpos(i)
      enddo
-      ringpos = ringpos - 0.5
+!      ringpos = ringpos - 0.5
     
      NNN = 1 ! only one particle
 
