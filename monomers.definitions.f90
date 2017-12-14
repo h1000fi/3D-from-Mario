@@ -33,9 +33,14 @@ st_matrix(1,1)=1.0
 !case(2)
 
 i = 1
-zpol(i) = 0
-hydroph(i) = 1
-pKa(i) = 11.0
+zpol(i) = 1
+hydroph(i) = 0
+pKa(i) = 10.0
+
+!i = 1
+!zpol(i) = 0
+!hydroph(i) = 1
+!pKa(i) = 11.0
 
 !endselect
 

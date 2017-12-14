@@ -168,7 +168,7 @@ do i = 1, nkp
  counterr = counter + i + ii  - 1
  call Free_Energy_Calc(vname,kp)
  if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
- call savedata(1)
+ call savedata(0)
  if(rank.eq.0)write(stdout,*) 'Save OK'
  call store2disk(vname,kp)
 
@@ -178,9 +178,9 @@ select case (vscan)
 
 case (1)
 
-zpol(1) = 1
-hydroph(1) = 0
-pKa(1) = 10.0
+!zpol(1) = 1
+!hydroph(1) = 0
+!pKa(1) = 10.0
 
 vname = 'pHbk'
 counter = 0
@@ -194,8 +194,12 @@ do i = 1, npH
   if(rank.eq.0)write(stdout,*)'Switch to pH = ', pHbulk
   flagcrash = 1
   do while(flagcrash.eq.1)
+   call initconst
    call reinitall
    flagcrash = 0
+  !if(rank.eq.0)write(stdout,*)'csalt ', csalt
+  !if(rank.eq.0)write(stdout,*)'monomer info ', zpol(1), hydroph(1), pKa(1) 
+  !if(rank.eq.2)write(stdout,*)'monomer info ', zpol(1), hydroph(1), pKa(1)
    call solve(flagcrash)
    if(flagcrash.eq.1) then
     if(i.eq.1)stop
