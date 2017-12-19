@@ -158,7 +158,7 @@ else                  ! pH >7
 endif
 
 xsolbulk=1.0 -xHplusbulk -xOHminbulk -xnegbulk -xposbulk 
-K0 = (Ka*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
+!K0 = (Ka*vsol/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
 expmupos = xposbulk /xsolbulk**vsalt
 expmuneg = xnegbulk /xsolbulk**vsalt
 expmuHplus = xHplusbulk /xsolbulk   ! vsol = vHplus 

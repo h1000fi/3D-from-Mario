@@ -558,35 +558,35 @@ endif
 
           if(rank.eq.0) then
 
-         write(301,*)vn, currentv, Free_energy/ncha, Free_energy/float(dimz)/delta
+         write(301,*)vn, currentv, Free_energy/ncha, Free_energy
           flush(301)
-         write(302,*)vn, currentv, F_Mix_s/ncha, F_Mix_s/float(dimz)/delta
+         write(302,*)vn, currentv, F_Mix_s/ncha, F_Mix_s
           flush(302)
-         write(303,*)vn, currentv, F_Mix_pos/ncha, F_Mix_pos/float(dimz)/delta
+         write(303,*)vn, currentv, F_Mix_pos/ncha, F_Mix_pos
           flush(303)
-         write(304,*)vn, currentv, F_Mix_neg/ncha, F_Mix_neg/float(dimz)/delta
+         write(304,*)vn, currentv, F_Mix_neg/ncha, F_Mix_neg
           flush(304)
-         write(305,*)vn, currentv, F_Mix_Hplus/ncha, F_Mix_Hplus/float(dimz)/delta
+         write(305,*)vn, currentv, F_Mix_Hplus/ncha, F_Mix_Hplus
           flush(305)
-         write(306,*)vn, currentv, F_Mix_OHmin/ncha, F_Mix_OHmin/float(dimz)/delta
+         write(306,*)vn, currentv, F_Mix_OHmin/ncha, F_Mix_OHmin
           flush(306)
-         write(3071,*)vn, currentv, F_gauche/ncha, F_gauche/float(dimz)/delta
+         write(3071,*)vn, currentv, F_gauche/ncha, F_gauche
           flush(3071)
-         write(307,*)vn, currentv, F_Conf/ncha, F_Conf/float(dimz)/delta
+         write(307,*)vn, currentv, F_Conf/ncha, F_Conf
           flush(307)
-         write(308,*)vn, currentv, F_Eq/ncha, F_Eq/float(dimz)/delta
+         write(308,*)vn, currentv, F_Eq/ncha, F_Eq
           flush(308)
-         write(309,*)vn, currentv, F_vdW/ncha, F_vdW/float(dimz)/delta
+         write(309,*)vn, currentv, F_vdW/ncha, F_vdW
           flush(309)
-         write(410,*)vn, currentv, F_eps/ncha, F_eps/float(dimz)/delta
+         write(410,*)vn, currentv, F_eps/ncha, F_eps
           flush(410)
-         write(311,*)vn, currentv, F_electro/ncha, F_electro/float(dimz)/delta
+         write(311,*)vn, currentv, F_electro/ncha, F_electro
           flush(311)
-         write(312,*)vn, currentv, Free_energy2/ncha, Free_energy2/float(dimz)/delta
+         write(312,*)vn, currentv, Free_energy2/ncha, Free_energy2
           flush(312)
-         write(314,*)vn, currentv, mupol/ncha, mupol/float(dimz)/delta
+         write(314,*)vn, currentv, mupol/ncha, mupol
           flush(314)
-         write(315,*)vn, currentv, charge_all/ncha, charge_all/float(dimz)/delta
+         write(315,*)vn, currentv, charge_all/ncha, charge_all
           flush(315)
 
 
