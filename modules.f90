@@ -130,6 +130,10 @@ integer neflow
 real*8 eflow
 real*8 eflows(100)
 
+integer neps
+real*8 eps
+real*8 epss(100)
+
 integer nsc
 real*8 sc
 real*8 scs(100)

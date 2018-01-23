@@ -351,6 +351,14 @@ do while (ios == 0)
    read(fh,*)eflows(i)
    enddo
 
+ case ('neps')
+   read(buffer, *, iostat=ios) neps
+   if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)
+
+   do i = 1, neps
+   read(fh,*)epss(i)
+   enddo
+
  case ('nsc')
    read(buffer, *, iostat=ios) nsc
    if(rank.eq.0)write(stdout,*) 'parser:','Set ',trim(label),' = ',trim(buffer)

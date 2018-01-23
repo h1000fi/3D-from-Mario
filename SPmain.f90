@@ -28,7 +28,7 @@ character*10 filename
 character*4 vname
 integer j, i, ii, iii
 integer flagcrash
-real*8 stOK,kpOK,pHOK,eflowOK
+real*8 stOK,kpOK,pHOK,eflowOK,epsOK
 
 stdout = 6
 
@@ -294,6 +294,44 @@ do i = 1, neflow
  call savedata(counterr)
  if(rank.eq.0)write(stdout,*) 'Save OK'
  call store2disk(vname,eflow)
+
+enddo
+
+case (4)
+
+vname = 'nplj'
+counter = 0
+ftol=1.0d-5
+
+kp = 0
+eeps(1) = 1.0d10+epss(1)
+do i = 1, neps
+ do while (eeps(1).ne.epss(i))
+  eeps(1) = epss(i)
+  if(rank.eq.0)write(stdout,*)'Switch to eps = ', eeps(1)
+  flagcrash = 1
+  do while(flagcrash.eq.1)
+   flagcrash = 0
+   call update_matrix_60(flag)
+   call solve(flagcrash)
+   if(flagcrash.eq.1) then
+    if(i.eq.1)stop
+    eeps(1) = (eeps(1) + epsOK)/2.0
+    if(rank.eq.0)write(stdout,*)'Error, switch to eps = ', eeps(1)
+   endif
+  enddo
+
+  epsOK = eeps(1) ! last st solved OK
+  if(rank.eq.0)write(stdout,*) 'Solved OK, eps: ', epsOK
+
+ enddo
+
+ counterr = counter + i + ii  - 1
+ call Free_Energy_Calc(vname,eeps(1))
+ if(rank.eq.0)write(stdout,*) 'Free energy after solving', free_energy
+ call savedata(counterr)
+ if(rank.eq.0)write(stdout,*) 'Save OK'
+ call store2disk(vname,eeps(1))
 
 enddo
 
